@@ -9,6 +9,8 @@ export interface ToolbarProps {
   onCursorChange: (cursor: 'move' | 'edit') => void
   onPrintClick: () => void
   onDeleteClick: () => void
+  onSaveClick: () => void
+  onLoadClick: (state: string) => void
 }
 
 export interface ToolbarState {
@@ -55,6 +57,15 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
     this.props.onPrintClick()
   }
 
+  onSaveClick = (e: any) => {
+    this.props.onSaveClick()
+  }
+
+  onLoadClick = (e: any) => {
+    const { value } = e.target
+    this.props.onLoadClick(value)
+  }
+
   onMoveClick = (e: any) => {
     this.onCursorChange(e, 'move')
   }
@@ -72,8 +83,10 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
       <div className='toolbar-container'>
         <div className='toolbar main'>
           <div><input type='color' value={this.state.color} onChange={this.onColorChange}/></div>
-          
+	  <div><input type='text' onClick={this.onLoadClick}/></div>
+
           <div className='material-icons md-light click' onClick={this.onPrintClick}>print</div>
+          <div className='material-icons md-light click' onClick={this.onSaveClick}>save</div>
           <div className='material-icons md-light click' onClick={this.onMoveClick}>zoom_out_map</div>
         </div>
 

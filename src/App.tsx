@@ -195,6 +195,16 @@ class App extends React.Component<AppProps, AppState> {
     })
   }
 
+    onSaveClick = () => {
+	const data = ls.get<CardJSON>('data')
+	console.log(JSON.stringify(data))
+  }
+
+    onLoadClick = (state: string) => {
+	const newState = JSON.parse(state)
+      this.setStateFromData(newState);
+  }
+
   onDeleteClick = () => {
     this.setState(this.getInitialState())
   }
@@ -206,6 +216,11 @@ class App extends React.Component<AppProps, AppState> {
   componentDidMount() {
     const data = ls.get<CardJSON>('data')
     if (data) {
+	this.setStateFromData(data)
+    }
+  }
+
+    setStateFromData (data: CardJSON) {
       const { color, actions, hexes, title, level, initiative, summon } = data
       this.setState({
         color,
@@ -242,7 +257,6 @@ class App extends React.Component<AppProps, AppState> {
         },
       })
     }
-  }
 
   componentDidUpdate(prevProps: AppProps, prevState: AppState) {
     const {
@@ -298,7 +312,9 @@ class App extends React.Component<AppProps, AppState> {
           onPrintClick={this.onPrintClick}
           onColorChange={this.onColorChange}
           onCursorChange={this.onCursorChange}
-          onDeleteClick={this.onDeleteClick}
+        onDeleteClick={this.onDeleteClick}
+	onSaveClick={this.onSaveClick}
+	onLoadClick={this.onLoadClick}
         />
         <div id="card-container">
           <Card

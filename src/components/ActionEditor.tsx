@@ -66,9 +66,9 @@ export class ActionEditor extends React.Component<ActionEditorProps, ActionEdito
 
     const { selection } = this.props.data.value
     if (selection.isBlurred) {
-      menu.style.top = null
-      menu.style.left = null
-      menu.style.opacity = null
+      menu.style.top = ''
+      menu.style.left = ''
+      menu.style.opacity = ''
       return
     }
 
