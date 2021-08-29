@@ -61,9 +61,24 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
     this.props.onSaveClick()
   }
 
-  onLoadClick = (e: any) => {
-    const { value } = e.target
-    this.props.onLoadClick(value)
+  onLoadChanged = (e: any) => {
+    const reader = new FileReader()
+    reader.onload = async (e) => { 
+      const value = reader.result as string
+      if (value !== null) {
+        this.props.onLoadClick(value)
+      }
+    };
+    if (e.target.files ) {
+	reader.readAsText (e.target.files.item(0))
+    }
+  }
+
+    onLoadClick = (e: any) => {
+	const upload = document.getElementById("upload")
+	if (upload !== null) {
+	    upload.click()
+	}
   }
 
   onMoveClick = (e: any) => {
@@ -83,8 +98,9 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
       <div className='toolbar-container'>
         <div className='toolbar main'>
           <div><input type='color' value={this.state.color} onChange={this.onColorChange}/></div>
-	  <div><input type='text' onClick={this.onLoadClick}/></div>
-
+	    <div className='material-icons md-light click' onClick={this.onLoadClick}>upload</div>
+	    <input type='file' id="upload" onChange={this.onLoadChanged} style={{display:"none"}}/>
+	
           <div className='material-icons md-light click' onClick={this.onPrintClick}>print</div>
           <div className='material-icons md-light click' onClick={this.onSaveClick}>save</div>
           <div className='material-icons md-light click' onClick={this.onMoveClick}>zoom_out_map</div>

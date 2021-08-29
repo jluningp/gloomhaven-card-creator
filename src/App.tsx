@@ -195,9 +195,20 @@ class App extends React.Component<AppProps, AppState> {
     })
   }
 
+  download = (data, filename) => {
+     	var blob = new Blob([data], {type:"text/plain"});
+        var url = window.URL.createObjectURL(blob);
+ 	var a = document.createElement("a") as HTMLAnchorElement;       
+        a.href =  url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(a.href) 
+  }
+
     onSaveClick = () => {
 	const data = ls.get<CardJSON>('data')
-	console.log(JSON.stringify(data))
+	const card_name = data.title
+	this.download(JSON.stringify(data), card_name.replace(" ", "_") + ".json")
   }
 
     onLoadClick = (state: string) => {
